@@ -164,11 +164,15 @@ class MainActivity : AppCompatActivity() {
 
                     if (extras != null) {
                         val json = JSONObject()
-                        val keys = bundle.keySet()
+                        val keys = extras.keySet()
                         for (key in keys) {
-                            try {
-                                json.put(key, JSONObject.wrap(bundle.get(key)))
-                            } catch (e: JSONException) {
+                            val v = extras.get(key)
+                            if (v != null) {
+                                try {
+                                    json.put(key, JSONObject.wrap(v))
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
                             }
                         }
                         n.extrasJson = json
