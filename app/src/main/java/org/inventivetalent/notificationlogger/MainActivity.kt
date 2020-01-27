@@ -1,11 +1,12 @@
 package org.inventivetalent.notificationlogger
 
 import android.app.NotificationManager
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.service.notification.StatusBarNotification
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -13,17 +14,24 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
-
-
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        val BROADCAST_TAG = "org.inventivetalent.notificationlogger.NOTIFICATION_LISTENER"
+    }
 
     private val ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners"
     private val ACTION_NOTIFICATION_LISTENER_SETTINGS =
         "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"
 
+
     private var enableNotificationListenerAlertDialog: AlertDialog? = null
+    private var notificationBroadcastReceiver: NotificationBroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +50,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         // If the user did not turn the notification listener service on we prompt him to do so
-        if(!isNotificationServiceEnabled()){
+        if (!isNotificationServiceEnabled()) {
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog()
             enableNotificationListenerAlertDialog?.show()
         }
 
+        notificationBroadcastReceiver = NotificationBroadcastReceiver()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(BROADCAST_TAG)
+        registerReceiver(notificationBroadcastReceiver, intentFilter)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(notificationBroadcastReceiver)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -114,6 +132,57 @@ class MainActivity : AppCompatActivity() {
             // the app. will not work as expected
         }
         return alertDialogBuilder.create()
+    }
+
+    class NotificationBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == BROADCAST_TAG) {
+                val action = intent.getStringExtra("action")
+                val bundle = intent.getBundleExtra("notification")
+                val notification = bundle?.getParcelable<StatusBarNotification>("notification")
+                val extras = bundle?.getBundle("notificationExtras")
+                println(notification)
+                println(extras)
+                if (notification != null) {
+
+                    val n = Notification()
+                    n.action = action
+                    n.time = Date()
+
+                    n.notificationId = notification.id
+                    n.key = notification.key
+                    n.tag = notification.tag
+                    n.packageName = notification.packageName
+
+                    if (notification.notification != null) {
+                        n.tickerText = notification.notification.tickerText?.toString()
+                        n.whenTime = Date(notification.notification.`when`)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            n.channelId = notification.notification.channelId
+                        }
+                    }
+
+                    if (extras != null) {
+                        val json = JSONObject()
+                        val keys = bundle.keySet()
+                        for (key in keys) {
+                            try {
+                                json.put(key, JSONObject.wrap(bundle.get(key)))
+                            } catch (e: JSONException) {
+                            }
+                        }
+                        n.extrasJson = json
+                    }
+
+
+
+                    AsyncTask.execute {
+                        AppDatabase.getInstance(context).notificationDao().insert(n)
+                    }
+                }
+            }
+        }
+
     }
 
 }

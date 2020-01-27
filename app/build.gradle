@@ -20,8 +20,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            resValue("string", "PORT_NUMBER", "8081")
+        }
     }
 }
+
+def room_version = "2.2.3"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -33,4 +38,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }
