@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.inventivetalent.notificationlogger.activities.NotificationViewActivity
 import org.inventivetalent.notificationlogger.database.Notification
 import java.text.DateFormat
 import java.text.SimpleDateFormat

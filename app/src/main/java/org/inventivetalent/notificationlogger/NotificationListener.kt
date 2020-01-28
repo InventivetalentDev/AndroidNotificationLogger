@@ -6,6 +6,7 @@ import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import org.inventivetalent.notificationlogger.activities.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
 

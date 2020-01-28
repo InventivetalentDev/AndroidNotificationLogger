@@ -1,4 +1,4 @@
-package org.inventivetalent.notificationlogger
+package org.inventivetalent.notificationlogger.activities
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -7,6 +7,10 @@ import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_notification_view.*
+import org.inventivetalent.notificationlogger.NotificationListAdapter
+import org.inventivetalent.notificationlogger.model.NotificationViewModel
+import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
+import org.inventivetalent.notificationlogger.R
 import org.inventivetalent.notificationlogger.database.Notification
 
 class NotificationViewActivity : AppCompatActivity() {
@@ -31,7 +35,11 @@ class NotificationViewActivity : AppCompatActivity() {
         val notificationId = intent?.getIntExtra("notificationId", -1)
         if (notificationId != null && notificationId != -1) {
             val viewmodelProvider =
-                ViewModelProvider(this, NotificationViewModelFactory(application)).get(
+                ViewModelProvider(this,
+                    NotificationViewModelFactory(
+                        application
+                    )
+                ).get(
                     NotificationViewModel::class.java
                 )
 

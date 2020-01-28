@@ -1,4 +1,4 @@
-package org.inventivetalent.notificationlogger
+package org.inventivetalent.notificationlogger.model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

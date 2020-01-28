@@ -1,4 +1,4 @@
-package org.inventivetalent.notificationlogger
+package org.inventivetalent.notificationlogger.activities
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -17,6 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.inventivetalent.notificationlogger.NotificationListAdapter
+import org.inventivetalent.notificationlogger.model.NotificationViewModel
+import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
+import org.inventivetalent.notificationlogger.R
 import org.inventivetalent.notificationlogger.database.Notification
 import org.json.JSONObject
 import java.util.*
@@ -54,7 +58,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         notificationViewModel =
-            ViewModelProvider(this, NotificationViewModelFactory(application)).get(
+            ViewModelProvider(this,
+                NotificationViewModelFactory(
+                    application
+                )
+            ).get(
                 NotificationViewModel::class.java
             )
         notificationViewModel.allRecentNotifications.observe(
@@ -81,7 +89,8 @@ class MainActivity : AppCompatActivity() {
             enableNotificationListenerAlertDialog?.show()
         }
 
-        notificationBroadcastReceiver = NotificationBroadcastReceiver()
+        notificationBroadcastReceiver =
+            NotificationBroadcastReceiver()
         val intentFilter = IntentFilter()
         intentFilter.addAction(BROADCAST_TAG)
         registerReceiver(notificationBroadcastReceiver, intentFilter)
@@ -241,7 +250,9 @@ class MainActivity : AppCompatActivity() {
                         n.extrasJson = JSONObject()
                     }
 
-                    insertNotification(n)
+                    insertNotification(
+                        n
+                    )
                 }
             }
         }
