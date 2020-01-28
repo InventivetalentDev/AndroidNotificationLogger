@@ -16,8 +16,10 @@ class NotificationListAdapter internal constructor(
     private val context: Context
 ) : RecyclerView.Adapter<NotificationListAdapter.NotificationViewHolder>() {
 
-    val timeFormat: DateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM)
-    val dateFormat: DateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
+    companion object{
+        val timeFormat: DateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM)
+        val dateFormat: DateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
+    }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var notifications = emptyList<Notification>()
