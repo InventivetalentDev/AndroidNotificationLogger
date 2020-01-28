@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_notification_view.*
 import org.inventivetalent.notificationlogger.NotificationListAdapter
-import org.inventivetalent.notificationlogger.model.NotificationViewModel
-import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
 import org.inventivetalent.notificationlogger.R
 import org.inventivetalent.notificationlogger.database.Notification
+import org.inventivetalent.notificationlogger.model.NotificationViewModel
+import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
 
 class NotificationViewActivity : AppCompatActivity() {
 
@@ -24,6 +24,7 @@ class NotificationViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_view)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         appIconView =findViewById(R.id.appIconImageView)
         notificationTitleView=findViewById(R.id.notificationTitleTextView)
