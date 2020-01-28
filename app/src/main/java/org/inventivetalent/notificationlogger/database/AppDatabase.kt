@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import org.inventivetalent.notificationlogger.database.converters.DateConverter
 import org.inventivetalent.notificationlogger.database.converters.JsonConverter
 
-@Database(entities = [Notification::class], version = 2)
+@Database(entities = [Notification::class], version = 3)
 @TypeConverters(DateConverter::class, JsonConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
