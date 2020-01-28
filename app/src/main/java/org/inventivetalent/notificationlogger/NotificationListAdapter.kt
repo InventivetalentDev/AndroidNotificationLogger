@@ -1,6 +1,7 @@
 package org.inventivetalent.notificationlogger
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +24,35 @@ class NotificationListAdapter internal constructor(
 
 
     inner class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var notificationId: Int = -1// Database ID
+
         val appIconView: ImageView = itemView.findViewById(R.id.appIconImageView)
         val notificationTitleView: TextView = itemView.findViewById(R.id.notificationTitleTextView)
         val notificationContentView: TextView =
             itemView.findViewById(R.id.notificationContentTextView)
         val notificationDateView: TextView = itemView.findViewById(R.id.notificationDateTextView)
         val notificationTimeView: TextView = itemView.findViewById(R.id.notificationTimeTextView)
+
+
+        init {
+            itemView.setOnClickListener {
+                if (notificationId != -1) {
+                    val intent = Intent(context, NotificationViewActivity::class.java)
+                    intent.putExtra("notificationId", notificationId)
+                    context.startActivity(intent)
+                }
+            }
+        }
+
+        fun bind(position: Int, notification: Notification) {
+            this.notificationId = notification.id
+
+            appIconView.setImageDrawable(context.packageManager.getApplicationIcon(notification.packageName))
+            notificationTitleView.text = notification.getExtraString("android.title")
+            notificationContentView.text = notification.getExtraString("android.text")
+            notificationDateView.text = dateFormat.format(notification.time)
+            notificationTimeView.text = timeFormat.format(notification.time)
+        }
     }
 
 
@@ -39,11 +63,7 @@ class NotificationListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val current = notifications[position]
-        holder.appIconView.setImageDrawable(context.packageManager.getApplicationIcon(current.packageName))
-        holder.notificationTitleView.text = current.getExtraString("android.title")
-        holder.notificationContentView.text = current.getExtraString("android.text")
-        holder.notificationDateView.text = dateFormat.format(current.time)
-        holder.notificationTimeView.text = timeFormat.format(current.time)
+        holder.bind(position, current)
     }
 
     internal fun setNotifications(notifications: List<Notification>) {

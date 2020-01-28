@@ -15,6 +15,8 @@ interface NotificationDao {
     @Query("SELECT * FROM notifications WHERE time > :since ORDER BY time DESC")
     fun getAllSince(since: Date): LiveData<List<Notification>>
 
+    @Query("SELECT * FROM notifications WHERE id = :id")
+    suspend fun getById(id: Int): Notification?
 
     @Insert
     suspend fun insert(vararg notifications: Notification)

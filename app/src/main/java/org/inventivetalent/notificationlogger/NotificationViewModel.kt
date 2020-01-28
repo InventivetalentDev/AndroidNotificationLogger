@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.inventivetalent.notificationlogger.database.AppDatabase
 import org.inventivetalent.notificationlogger.database.Notification
@@ -24,6 +26,19 @@ class NotificationViewModel(application: Application) :AndroidViewModel(applicat
 
     fun insert(vararg notifications:Notification) = viewModelScope.launch{
         repository.insert(*notifications)
+    }
+
+
+    fun getById(id: Int):Deferred<Notification?>{
+       return viewModelScope.async {
+           return@async repository.getById(id)
+       }
+    }
+
+    fun getById(id: Int, callback:(Notification?)->Unit){
+        viewModelScope.launch {
+            callback.invoke(repository.getById(id))
+        }
     }
 
 }

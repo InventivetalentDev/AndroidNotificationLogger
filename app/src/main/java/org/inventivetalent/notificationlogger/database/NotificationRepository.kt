@@ -14,4 +14,8 @@ class NotificationRepository(private val notificationDao: NotificationDao) {
         notificationDao.insert(*notifications)
     }
 
+    suspend fun getById(id: Int): Notification? {
+        return notificationDao.getById(id)
+    }
+
 }
