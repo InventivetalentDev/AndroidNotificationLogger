@@ -167,11 +167,13 @@ class MainActivity : AppCompatActivity() {
                             val nManager =
                                 context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                             val channel = nManager.getNotificationChannel(n.channelId)
-                            n.channelName = channel.name?.toString()
-                            n.channelDescription = channel.description
-                            n.priority = channel.importance// same as priority below
-                            n.vibrate = channel.vibrationPattern?.joinToString { "," }
-                            n.sound = channel.sound?.toString()
+                            if(channel!=null) {
+                                n.channelName = channel.name?.toString()
+                                n.channelDescription = channel.description
+                                n.priority = channel.importance// same as priority below
+                                n.vibrate = channel.vibrationPattern?.joinToString { "," }
+                                n.sound = channel.sound?.toString()
+                            }
                         } else {
                             n.priority = notification.notification.priority
                             n.vibrate = notification.notification.vibrate?.joinToString { "," }

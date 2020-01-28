@@ -32,9 +32,9 @@ public abstract class AppDatabase extends RoomDatabase {
                             .addMigrations(new Migration(1,2) {
                                 @Override
                                 public void migrate(@NonNull SupportSQLiteDatabase database) {
-                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `number` INTEGER");
-                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `visibility` INTEGER");
-                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `priority` INTEGER");
+                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `number` INTEGER NOT NULL DEFAULT 0");
+                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `visibility` INTEGER NOT NULL DEFAULT 0");
+                                    database.execSQL("ALTER TABLE notifications ADD COLUMN `priority` INTEGER NOT NULL DEFAULT 0");
                                     database.execSQL("ALTER TABLE notifications ADD COLUMN `sound` TEXT");
                                     database.execSQL("ALTER TABLE notifications ADD COLUMN `vibrate` TEXT");
                                     database.execSQL("ALTER TABLE notifications ADD COLUMN `channelName` TEXT");
