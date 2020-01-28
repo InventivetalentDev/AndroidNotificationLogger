@@ -1,7 +1,6 @@
 package org.inventivetalent.notificationlogger
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.service.notification.NotificationListenerService
@@ -40,12 +39,6 @@ class NotificationListener : NotificationListenerService() {
                 TAG,
                 "ID :" + sbn.id + "\t" + sbn.notification.tickerText + "\t" + sbn.packageName
             )
-
-            // https://stackoverflow.com/a/23683704/6257838
-            // Apprarently, the bug is caused by the extras when they're written to the parcel
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                sbn.notification.extras = null
-            }
 
             val intent = Intent(MainActivity.BROADCAST_TAG)
             intent.putExtra("action", "post")
