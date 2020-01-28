@@ -2,7 +2,6 @@ package org.inventivetalent.notificationlogger
 
 import android.app.NotificationManager
 import android.content.*
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -13,8 +12,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.inventivetalent.notificationlogger.database.AppDatabase
 import org.inventivetalent.notificationlogger.database.Notification
 import org.json.JSONException
 import org.json.JSONObject
@@ -24,6 +25,12 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        private lateinit var notificationViewModel: NotificationViewModel
+
+        fun insertNotification(notification: Notification) {
+            notificationViewModel.insert(notification)
+        }
+
         val BROADCAST_TAG = "org.inventivetalent.notificationlogger.NOTIFICATION_LISTENER"
     }
 
@@ -35,10 +42,23 @@ class MainActivity : AppCompatActivity() {
     private var enableNotificationListenerAlertDialog: AlertDialog? = null
     private var notificationBroadcastReceiver: NotificationBroadcastReceiver? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val adapter = NotificationListAdapter(this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        notificationViewModel = ViewModelProvider(this,NotificationViewModelFactory(application)).get(NotificationViewModel::class.java)
+        notificationViewModel.allRecentNotifications.observe(this,androidx.lifecycle.Observer{notifications->
+            println(notifications)
+            notifications?.let { adapter.setNotifications(it) }
+        })
 
         fab.setOnClickListener {
             val nManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -136,6 +156,8 @@ class MainActivity : AppCompatActivity() {
         return alertDialogBuilder.create()
     }
 
+
+
     class NotificationBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == BROADCAST_TAG) {
@@ -199,11 +221,7 @@ class MainActivity : AppCompatActivity() {
                         n.extrasJson = json
                     }
 
-
-
-                    AsyncTask.execute {
-                        AppDatabase.getInstance(context).notificationDao().insert(n)
-                    }
+                    insertNotification(n)
                 }
             }
         }
