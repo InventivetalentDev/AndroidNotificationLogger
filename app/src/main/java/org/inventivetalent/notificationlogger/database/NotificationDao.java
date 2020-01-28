@@ -1,4 +1,4 @@
-package org.inventivetalent.notificationlogger;
+package org.inventivetalent.notificationlogger.database;
 
 import androidx.room.Dao;
 import androidx.room.Insert;

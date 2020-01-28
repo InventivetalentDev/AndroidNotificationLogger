@@ -14,6 +14,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import org.inventivetalent.notificationlogger.database.AppDatabase
+import org.inventivetalent.notificationlogger.database.Notification
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*

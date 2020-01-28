@@ -1,4 +1,4 @@
-package org.inventivetalent.notificationlogger;
+package org.inventivetalent.notificationlogger.database;
 
 import android.content.Context;
 
@@ -9,6 +9,9 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import org.inventivetalent.notificationlogger.database.converters.DateConverter;
+import org.inventivetalent.notificationlogger.database.converters.JsonConverter;
 
 @Database(entities = {
 		Notification.class
