@@ -8,10 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.inventivetalent.notificationlogger.database.Notification
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class NotificationListAdapter internal constructor(
-    context: Context
+    private val context: Context
 ) : RecyclerView.Adapter<NotificationListAdapter.NotificationViewHolder>() {
+
+    val timeFormat: DateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
+    val dateFormat: DateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var notifications = emptyList<Notification>()
@@ -34,9 +39,11 @@ class NotificationListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val current = notifications[position]
-        //TODO
-        holder.notificationTitleView.text = current.tickerText
-        //TODO
+        holder.appIconView.setImageDrawable(context.packageManager.getApplicationIcon(current.packageName))
+        holder.notificationTitleView.text = current.getExtraString("android.title")
+        holder.notificationContentView.text = current.getExtraString("android.text")
+        holder.notificationDateView.text = dateFormat.format(current.time)
+        holder.notificationTimeView.text = timeFormat.format(current.time)
     }
 
     internal fun setNotifications(notifications: List<Notification>) {

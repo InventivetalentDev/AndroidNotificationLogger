@@ -74,4 +74,22 @@ class Notification {
     @ColumnInfo
     var extrasJson: JSONObject? = null
 
+    fun hasExtra(key:String):Boolean{
+        return extrasJson != null && (extrasJson as JSONObject).has(key)
+    }
+
+    fun getExtraString(key:String, def:String?=null):String?{
+        if (hasExtra(key)) {
+            return extrasJson?.getString(key)
+        }
+        return def
+    }
+
+    fun getExtraInt(key:String, def:Int=0):Int?{
+        if (hasExtra(key)) {
+            return extrasJson?.getInt(key)
+        }
+        return def
+    }
+
 }
