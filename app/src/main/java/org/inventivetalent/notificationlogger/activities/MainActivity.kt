@@ -12,16 +12,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.inventivetalent.notificationlogger.NotificationListAdapter
-import org.inventivetalent.notificationlogger.model.NotificationViewModel
-import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
 import org.inventivetalent.notificationlogger.R
 import org.inventivetalent.notificationlogger.database.Notification
+import org.inventivetalent.notificationlogger.model.NotificationViewModel
+import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
 import org.json.JSONObject
 import java.util.*
 
@@ -72,16 +71,16 @@ class MainActivity : AppCompatActivity() {
                 notifications?.let { adapter.setNotifications(it) }
             })
 
-        fab.setOnClickListener {
-            val nManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val ncomp = NotificationCompat.Builder(this)
-            ncomp.setContentTitle("My Notification")
-            ncomp.setContentText("Notification Listener Service Example")
-            ncomp.setTicker("Notification Listener Service Example")
-            ncomp.setSmallIcon(R.drawable.ic_launcher_background)
-            ncomp.setAutoCancel(true)
-            nManager.notify(System.currentTimeMillis().toInt(), ncomp.build())
-        }
+//        fab.setOnClickListener {
+//            val nManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            val ncomp = NotificationCompat.Builder(this)
+//            ncomp.setContentTitle("My Notification")
+//            ncomp.setContentText("Notification Listener Service Example")
+//            ncomp.setTicker("Notification Listener Service Example")
+//            ncomp.setSmallIcon(R.drawable.ic_launcher_background)
+//            ncomp.setAutoCancel(true)
+//            nManager.notify(System.currentTimeMillis().toInt(), ncomp.build())
+//        }
 
         // If the user did not turn the notification listener service on we prompt him to do so
         if (!isNotificationServiceEnabled()) {
