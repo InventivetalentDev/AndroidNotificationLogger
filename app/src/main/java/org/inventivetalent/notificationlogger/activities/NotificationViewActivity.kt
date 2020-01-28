@@ -16,6 +16,7 @@ import org.inventivetalent.notificationlogger.model.NotificationViewModelFactory
 class NotificationViewActivity : AppCompatActivity() {
 
     lateinit var appIconView: ImageView
+    lateinit var actionIconView: ImageView
     lateinit var notificationTitleView: TextView
     lateinit var notificationContentView: TextView
     lateinit var notificationDateView: TextView
@@ -27,6 +28,7 @@ class NotificationViewActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         appIconView =findViewById(R.id.appIconImageView)
+        actionIconView = findViewById(R.id.actionIconImageView)
         notificationTitleView=findViewById(R.id.notificationTitleTextView)
         notificationContentView = findViewById(R.id.notificationContentTextView)
         notificationDateView = findViewById(R.id.notificationDateTextView)
@@ -62,6 +64,7 @@ class NotificationViewActivity : AppCompatActivity() {
     @UiThread
     fun onNotificationLoaded(notification: Notification) {
         appIconView.setImageDrawable(packageManager.getApplicationIcon(notification.packageName))
+        actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_add_green_24dp else R.drawable.ic_remove_red_24dp)
         notificationTitleView.text = notification.getExtraString("android.title")
         notificationContentView.text = notification.getExtraString("android.text")
         notificationDateView.text = NotificationListAdapter.dateFormat.format(notification.time)
