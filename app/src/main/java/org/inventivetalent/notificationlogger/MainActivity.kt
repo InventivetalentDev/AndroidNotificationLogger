@@ -157,8 +157,25 @@ class MainActivity : AppCompatActivity() {
                     if (notification.notification != null) {
                         n.tickerText = notification.notification.tickerText?.toString()
                         n.whenTime = Date(notification.notification.`when`)
+                        n.number = notification.notification.number
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            n.visibility = notification.notification.visibility
+                        }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             n.channelId = notification.notification.channelId
+
+                            val nManager =
+                                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                            val channel = nManager.getNotificationChannel(n.channelId)
+                            n.channelName = channel.name?.toString()
+                            n.channelDescription = channel.description
+                            n.priority = channel.importance// same as priority below
+                            n.vibrate = channel.vibrationPattern?.joinToString { "," }
+                            n.sound = channel.sound?.toString()
+                        } else {
+                            n.priority = notification.notification.priority
+                            n.vibrate = notification.notification.vibrate?.joinToString { "," }
+                            n.sound = notification.notification.sound?.toString()
                         }
                     }
 

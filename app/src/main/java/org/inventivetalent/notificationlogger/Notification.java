@@ -41,8 +41,28 @@ public class Notification {
     public Date whenTime;
 
     @ColumnInfo
+    public int number;
+
+    @ColumnInfo
+    public int visibility;
+
+    @ColumnInfo
+    public int priority;
+
+    @ColumnInfo
+    public String sound;
+
+    @ColumnInfo
+    public String vibrate;// Long array pattern stored as comma separated string
+
+    @ColumnInfo
     public String channelId;
 
+    @ColumnInfo
+    public String channelName;
+
+    @ColumnInfo
+    public String channelDescription;
 
     @ColumnInfo
     public JSONObject extrasJson;
