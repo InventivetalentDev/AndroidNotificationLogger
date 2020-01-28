@@ -5,7 +5,7 @@ import androidx.room.TypeConverter
 import org.json.JSONException
 import org.json.JSONObject
 
-object JsonConverter {
+class JsonConverter {
 
 
     @TypeConverter

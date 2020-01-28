@@ -3,7 +3,7 @@ package org.inventivetalent.notificationlogger.database.converters
 import androidx.room.TypeConverter
 import java.util.*
 
-object DateConverter {
+class DateConverter {
 
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
