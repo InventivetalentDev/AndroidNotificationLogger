@@ -1,5 +1,6 @@
 package org.inventivetalent.notificationlogger
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.*
 import android.os.Build
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private var notificationBroadcastReceiver: NotificationBroadcastReceiver? = null
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,11 +53,16 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        notificationViewModel = ViewModelProvider(this,NotificationViewModelFactory(application)).get(NotificationViewModel::class.java)
-        notificationViewModel.allRecentNotifications.observe(this,androidx.lifecycle.Observer{notifications->
-            println(notifications)
-            notifications?.let { adapter.setNotifications(it) }
-        })
+        notificationViewModel =
+            ViewModelProvider(this, NotificationViewModelFactory(application)).get(
+                NotificationViewModel::class.java
+            )
+        notificationViewModel.allRecentNotifications.observe(
+            this,
+            androidx.lifecycle.Observer { notifications ->
+                println(notifications)
+                notifications?.let { adapter.setNotifications(it) }
+            })
 
         fab.setOnClickListener {
             val nManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -156,7 +161,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     class NotificationBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == BROADCAST_TAG) {
@@ -186,20 +190,23 @@ class MainActivity : AppCompatActivity() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             n.visibility = notification.notification.visibility
                         }
+
+                        var channel: NotificationChannel? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             n.channelId = notification.notification.channelId
 
                             val nManager =
                                 context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                            val channel = nManager.getNotificationChannel(n.channelId)
-                            if(channel!=null) {
-                                n.channelName = channel.name?.toString()
-                                n.channelDescription = channel.description
-                                n.priority = channel.importance// same as priority below
-                                n.vibrate = channel.vibrationPattern?.joinToString { "," }
-                                n.sound = channel.sound?.toString()
-                            }
-                        } else {
+                            channel = nManager.getNotificationChannel(n.channelId)
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && channel != null) {
+                            n.channelName = channel.name?.toString()
+                            n.channelDescription = channel.description
+                            n.priority = channel.importance// same as priority below
+                            n.vibrate = channel.vibrationPattern?.joinToString { "," }
+                            n.sound = channel.sound?.toString()
+                        } else {// Falling back to these fields since you can't access channels that don't belong to your app
                             n.priority = notification.notification.priority
                             n.vibrate = notification.notification.vibrate?.joinToString { "," }
                             n.sound = notification.notification.sound?.toString()
@@ -221,7 +228,11 @@ class MainActivity : AppCompatActivity() {
 //                        }
 //                        n.extrasJson = json
 //                    }
-                    n.extrasJson = JSONObject(extrasJson)
+                    if(extrasJson!=null) {
+                        n.extrasJson = JSONObject(extrasJson)
+                    }else{
+                        n.extrasJson = JSONObject()
+                    }
 
                     insertNotification(n)
                 }
