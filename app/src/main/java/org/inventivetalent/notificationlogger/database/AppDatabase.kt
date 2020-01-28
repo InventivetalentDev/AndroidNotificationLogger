@@ -45,6 +45,13 @@ abstract class AppDatabase : RoomDatabase() {
                             database.execSQL("ALTER TABLE notifications ADD COLUMN `channelDescription` TEXT")
                         }
                     })
+                    .addMigrations(object : Migration(2, 3) {
+                        override fun migrate(database: SupportSQLiteDatabase) {
+                            database.execSQL("ALTER TABLE notifications ADD COLUMN `category` TEXT")
+                            database.execSQL("ALTER TABLE notifications ADD COLUMN `color` INTEGER NOT NULL DEFAULT 0")
+                            database.execSQL("ALTER TABLE notifications ADD COLUMN `flags` INTEGER NOT NULL DEFAULT 0")
+                        }
+                    })
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

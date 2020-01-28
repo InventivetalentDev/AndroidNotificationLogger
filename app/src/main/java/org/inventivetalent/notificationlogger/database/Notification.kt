@@ -54,6 +54,15 @@ class Notification {
     var vibrate: String? = null// Long array pattern stored as comma separated string
 
     @ColumnInfo
+    var category: String? = null
+
+    @ColumnInfo
+    var color: Int = 0
+
+    @ColumnInfo
+    var flags: Int = 0
+
+    @ColumnInfo
     var channelId: String? = null
 
     @ColumnInfo

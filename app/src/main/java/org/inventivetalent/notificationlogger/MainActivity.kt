@@ -187,9 +187,16 @@ class MainActivity : AppCompatActivity() {
                         n.tickerText = notification.notification.tickerText?.toString()
                         n.whenTime = Date(notification.notification.`when`)
                         n.number = notification.notification.number
+                        n.flags = notification.notification.flags
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             n.visibility = notification.notification.visibility
+                            n.category = notification.notification.category
+                            n.color = notification.notification.color
                         }
+
+
+
+
 
                         var channel: NotificationChannel? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
