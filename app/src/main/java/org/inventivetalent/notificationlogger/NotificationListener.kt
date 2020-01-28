@@ -6,6 +6,8 @@ import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import org.json.JSONException
+import org.json.JSONObject
 
 class NotificationListener : NotificationListenerService() {
 
@@ -67,14 +69,32 @@ class NotificationListener : NotificationListenerService() {
     }
 
     private fun writeNotificationIntoIntent(intent: Intent, sbn: StatusBarNotification) {
-        val extras = sbn.notification.extras;
+        val extras = sbn.notification.extras
+
+        var extrasJson = ""
+        if (extras != null) {
+            val json = JSONObject()
+            val keys = extras.keySet()
+            for (key in keys) {
+                val v = extras.get(key)
+                if (v != null) {
+                    try {
+                        json.put(key, JSONObject.wrap(v))
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+            extrasJson = json.toString()
+        }
 
         // https://stackoverflow.com/a/23683704/6257838
         sbn.notification.extras = null
 
         val bundle = Bundle()
         bundle.putParcelable("notification", sbn)
-        bundle.putBundle("notificationExtras", extras)
+//        bundle.putBundle("notificationExtras", extras)
+        bundle.putString("notificationExtrasJson", extrasJson)
         intent.putExtra("notification", bundle)
     }
 

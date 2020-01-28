@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.inventivetalent.notificationlogger.database.Notification
-import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
@@ -165,8 +164,10 @@ class MainActivity : AppCompatActivity() {
                 val bundle = intent.getBundleExtra("notification")
                 val notification = bundle?.getParcelable<StatusBarNotification>("notification")
                 val extras = bundle?.getBundle("notificationExtras")
+                val extrasJson = bundle?.getString("notificationExtrasJson")
                 println(notification)
                 println(extras)
+                println(extrasJson)
                 if (notification != null) {
 
                     val n = Notification()
@@ -205,21 +206,22 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
-                    if (extras != null) {
-                        val json = JSONObject()
-                        val keys = extras.keySet()
-                        for (key in keys) {
-                            val v = extras.get(key)
-                            if (v != null) {
-                                try {
-                                    json.put(key, JSONObject.wrap(v))
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
-                                }
-                            }
-                        }
-                        n.extrasJson = json
-                    }
+//                    if (extras != null) {
+//                        val json = JSONObject()
+//                        val keys = extras.keySet()
+//                        for (key in keys) {
+//                            val v = extras.get(key)
+//                            if (v != null) {
+//                                try {
+//                                    json.put(key, JSONObject.wrap(v))
+//                                } catch (e: JSONException) {
+//                                    e.printStackTrace()
+//                                }
+//                            }
+//                        }
+//                        n.extrasJson = json
+//                    }
+                    n.extrasJson = JSONObject(extrasJson)
 
                     insertNotification(n)
                 }
