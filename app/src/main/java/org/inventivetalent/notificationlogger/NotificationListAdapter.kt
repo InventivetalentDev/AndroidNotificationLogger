@@ -52,7 +52,7 @@ class NotificationListAdapter internal constructor(
             this.notificationId = notification.id
 
             appIconView.setImageDrawable(context.packageManager.getApplicationIcon(notification.packageName))
-            actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_add_green_24dp else R.drawable.ic_remove_red_24dp)
+            actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_plus_green_shadow_hard_24dp else R.drawable.ic_minus_red_shadow_hard_24dp)
             notificationTitleView.text = notification.getExtraString("android.title")
             notificationContentView.text = notification.getExtraString("android.text")
             notificationDateView.text = dateFormat.format(notification.time)
