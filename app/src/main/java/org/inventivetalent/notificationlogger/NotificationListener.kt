@@ -32,6 +32,18 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onListenerConnected() {
         Log.i(TAG, "onListenerConnected")
+
+        val intent = Intent(MainActivity.BROADCAST_TAG)
+        intent.putExtra("action", "self_connected")
+        sendBroadcast(intent)
+    }
+
+    override fun onListenerDisconnected() {
+        Log.i(TAG, "onListenerDisconnected")
+
+        val intent = Intent(MainActivity.BROADCAST_TAG)
+        intent.putExtra("action", "self_disconnected")
+        sendBroadcast(intent)
     }
 
 

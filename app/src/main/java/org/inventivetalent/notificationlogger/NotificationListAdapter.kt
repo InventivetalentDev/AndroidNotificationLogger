@@ -28,6 +28,7 @@ class NotificationListAdapter internal constructor(
 
     inner class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var notificationId: Int = -1// Database ID
+        var notificationAction: String = ""
 
         val appIconView: ImageView = itemView.findViewById(R.id.appIconImageView)
         val actionIconView: ImageView = itemView.findViewById(R.id.actionIconImageView)
@@ -40,9 +41,10 @@ class NotificationListAdapter internal constructor(
 
         init {
             itemView.setOnClickListener {
-                if (notificationId != -1) {
+                if (notificationId != -1 && !this.notificationAction.startsWith("self_")) {
                     val intent = Intent(context, NotificationViewActivity::class.java)
                     intent.putExtra("notificationId", notificationId)
+                    intent.putExtra("notificationAction", notificationAction)
                     context.startActivity(intent)
                 }
             }
@@ -50,13 +52,22 @@ class NotificationListAdapter internal constructor(
 
         fun bind(position: Int, notification: Notification) {
             this.notificationId = notification.id
+            this.notificationAction = notification.action!!
 
-            appIconView.setImageDrawable(context.packageManager.getApplicationIcon(notification.packageName))
-            actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_plus_green_shadow_hard_24dp else R.drawable.ic_minus_red_shadow_hard_24dp)
-            notificationTitleView.text = notification.getExtraString("android.title")
-            notificationContentView.text = notification.getExtraString("android.text")
+            actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_plus_green_shadow_hard_24dp else if (notification.action == "remove") R.drawable.ic_minus_red_shadow_hard_24dp else 0)
             notificationDateView.text = dateFormat.format(notification.time)
             notificationTimeView.text = timeFormat.format(notification.time)
+
+            if (notification.action?.startsWith("self_")!!) {
+                appIconView.setImageResource(R.mipmap.ic_launcher)
+                notificationTitleView.text = notification.action
+                notificationContentView.text = notification.action
+            } else {
+                appIconView.setImageDrawable(context.packageManager.getApplicationIcon(notification.packageName))
+                notificationTitleView.text = notification.getExtraString("android.title")
+                notificationContentView.text = notification.getExtraString("android.text")
+            }
+
         }
     }
 

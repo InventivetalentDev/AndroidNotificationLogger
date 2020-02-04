@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         notificationViewModel =
-            ViewModelProvider(this,
+            ViewModelProvider(
+                this,
                 NotificationViewModelFactory(
                     application
                 )
@@ -180,12 +181,13 @@ class MainActivity : AppCompatActivity() {
                 println(notification)
                 println(extras)
                 println(extrasJson)
+
+
+                val n = Notification()
+                n.action = action
+                n.time = Date()
+
                 if (notification != null) {
-
-                    val n = Notification()
-                    n.action = action
-                    n.time = Date()
-
                     n.notificationId = notification.id
                     n.key = notification.key
                     n.tag = notification.tag
@@ -201,9 +203,6 @@ class MainActivity : AppCompatActivity() {
                             n.category = notification.notification.category
                             n.color = notification.notification.color
                         }
-
-
-
 
 
                         var channel: NotificationChannel? = null
@@ -243,16 +242,13 @@ class MainActivity : AppCompatActivity() {
 //                        }
 //                        n.extrasJson = json
 //                    }
-                    if(extrasJson!=null) {
+                    if (extrasJson != null) {
                         n.extrasJson = JSONObject(extrasJson)
-                    }else{
+                    } else {
                         n.extrasJson = JSONObject()
                     }
-
-                    insertNotification(
-                        n
-                    )
                 }
+                insertNotification(n)
             }
         }
 
