@@ -60,7 +60,7 @@ class NotificationListAdapter internal constructor(
 
             if (notification.action?.startsWith("self_")!!) {
                 appIconView.setImageResource(R.mipmap.ic_launcher)
-                notificationTitleView.text = notification.action
+                notificationTitleView.text = context.getString(R.string.app_name)
                 notificationContentView.text = notification.action
             } else {
                 appIconView.setImageDrawable(context.packageManager.getApplicationIcon(notification.packageName))
