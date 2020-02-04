@@ -63,12 +63,18 @@ class NotificationViewActivity : AppCompatActivity() {
 
     @UiThread
     fun onNotificationLoaded(notification: Notification) {
-        appIconView.setImageDrawable(packageManager.getApplicationIcon(notification.packageName))
+        val applicationInfo = packageManager.getApplicationInfo(notification.packageName,0)
+
+        // Same stuff as the list view holder
+        appIconView.setImageDrawable(packageManager.getApplicationIcon(applicationInfo))
         actionIconView.setImageResource(if (notification.action == "post") R.drawable.ic_add_green_24dp else R.drawable.ic_remove_red_24dp)
         notificationTitleView.text = notification.getExtraString("android.title")
         notificationContentView.text = notification.getExtraString("android.text")
         notificationDateView.text = NotificationListAdapter.dateFormat.format(notification.time)
         notificationTimeView.text = NotificationListAdapter.timeFormat.format(notification.time)
+
+        // More specific details
+        supportActionBar?.title = packageManager.getApplicationLabel(applicationInfo)
 
 
         debugTextView.text = notification.extrasJson?.toString()
