@@ -139,6 +139,8 @@ class NotificationViewActivity : AppCompatActivity() {
             else -> "UNKNOWN"
         } + " (" + notification.removeReason.toString() + ")"
 
+        categoryTextView.text = notification.category
+
         colorTextView.text = notification.color.toString()
         colorTextView.setTextColor(notification.color)
 

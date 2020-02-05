@@ -295,7 +295,7 @@
                 android:text="Color"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reasonTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryTextView" />
 
             <TextView
                 android:id="@+id/colorTextView"
@@ -305,7 +305,7 @@
                 android:layout_marginTop="8dp"
                 android:text="c"
                 app:layout_constraintStart_toEndOf="@+id/textView25"
-                app:layout_constraintTop_toBottomOf="@+id/reasonTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/categoryTextView" />
 
             <TextView
                 android:id="@+id/textView27"
@@ -327,6 +327,27 @@
                 android:text="f"
                 app:layout_constraintStart_toEndOf="@+id/textView27"
                 app:layout_constraintTop_toBottomOf="@+id/colorTextView" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Category"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reasonTextView" />
+
+            <TextView
+                android:id="@+id/categoryTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="c"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/reasonTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
