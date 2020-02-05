@@ -43,7 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+                app:layout_constraintTop_toBottomOf="@+id/flagsTextView" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -85,7 +85,7 @@
                 android:text="Key"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/idTextView" />
 
             <TextView
                 android:id="@+id/keyTextView"
@@ -106,7 +106,7 @@
                 android:text="Tag"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/keyTextView" />
 
             <TextView
                 android:id="@+id/tagTextView"
@@ -127,7 +127,7 @@
                 android:text="Package"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                app:layout_constraintTop_toBottomOf="@+id/tagTextView" />
 
             <TextView
                 android:id="@+id/packageTextView"
@@ -148,7 +148,7 @@
                 android:text="Ticker Text"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                app:layout_constraintTop_toBottomOf="@+id/packageTextView" />
 
             <TextView
                 android:id="@+id/tickerTextView"
@@ -169,7 +169,7 @@
                 android:text="When"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                app:layout_constraintTop_toBottomOf="@+id/tickerTextView" />
 
             <TextView
                 android:id="@+id/whenTextView"
@@ -190,7 +190,7 @@
                 android:text="Number"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintTop_toBottomOf="@+id/whenTextView" />
 
             <TextView
                 android:id="@+id/numberTextView"
@@ -211,7 +211,7 @@
                 android:text="Visibility"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintTop_toBottomOf="@+id/numberTextView" />
 
             <TextView
                 android:id="@+id/visibilityTextView"
@@ -232,7 +232,7 @@
                 android:text="Priority"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                app:layout_constraintTop_toBottomOf="@+id/visibilityTextView" />
 
             <TextView
                 android:id="@+id/priorityTextView"
@@ -253,7 +253,7 @@
                 android:text="Interruption Filter"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toBottomOf="@+id/priorityTextView" />
 
             <TextView
                 android:id="@+id/interruptionFilterTextView"
@@ -274,7 +274,7 @@
                 android:text="Remove Reason"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/interruptionFilterTextView" />
 
             <TextView
                 android:id="@+id/reasonTextView"
@@ -295,7 +295,7 @@
                 android:text="Color"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                app:layout_constraintTop_toBottomOf="@+id/reasonTextView" />
 
             <TextView
                 android:id="@+id/colorTextView"
@@ -316,7 +316,7 @@
                 android:text="Flags"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                app:layout_constraintTop_toBottomOf="@+id/colorTextView" />
 
             <TextView
                 android:id="@+id/flagsTextView"
