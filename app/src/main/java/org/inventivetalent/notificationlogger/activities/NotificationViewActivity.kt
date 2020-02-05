@@ -1,7 +1,6 @@
 package org.inventivetalent.notificationlogger.activities
 
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.UiThread
@@ -22,8 +21,6 @@ class NotificationViewActivity : AppCompatActivity() {
     lateinit var notificationContentView: TextView
     lateinit var notificationDateView: TextView
     lateinit var notificationTimeView: TextView
-    lateinit var extrasJsonEditText: EditText
-    lateinit var extrasJsonTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +33,6 @@ class NotificationViewActivity : AppCompatActivity() {
         notificationContentView = findViewById(R.id.notificationContentTextView)
         notificationDateView = findViewById(R.id.notificationDateTextView)
         notificationTimeView = findViewById(R.id.notificationTimeTextView)
-        extrasJsonEditText= findViewById(R.id.extrasJsonEditText)
-        extrasJsonTextView = findViewById(R.id.extrasJsonTextView)
 
 
         val notificationId = intent?.getIntExtra("notificationId", -1)
@@ -82,9 +77,24 @@ class NotificationViewActivity : AppCompatActivity() {
         supportActionBar?.title = packageManager.getApplicationLabel(applicationInfo)
 
 
-        debugTextView.text = notification.extrasJson?.toString()
-        extrasJsonEditText.setText(notification.extrasJson?.toString(2))
+        idTextView.text = notification.id.toString()
+        keyTextView.text = notification.key
+        tagTextView.text = notification.tag
+        packageTextView.text = notification.packageName
+        tickerTextView.text = notification.tickerText
+        whenTextView.text = if(notification.whenTime!=null) NotificationListAdapter.dateTimeFormat.format(notification.whenTime!!) else "?"
+        numberTextView.text = notification.number.toString()
+        visibilityTextView.text = notification.visibility.toString()
+        priorityTextView.text = notification.priority.toString()
+        interruptionFilterTextView.text = notification.interruptionFilter.toString()
+        reasonTextView.text = notification.removeReason.toString()
+        colorTextView.text = notification.color.toString()
+        flagsTextView.text = notification.flags.toString()
+
         extrasJsonTextView.text = notification.extrasJson?.toString(2)
+
+
+
     }
 
 }

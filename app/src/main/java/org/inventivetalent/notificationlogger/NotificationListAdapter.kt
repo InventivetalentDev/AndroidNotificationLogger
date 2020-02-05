@@ -20,6 +20,7 @@ class NotificationListAdapter internal constructor(
     companion object {
         val timeFormat: DateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM)
         val dateFormat: DateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
+        val dateTimeFormat: DateFormat = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.MEDIUM)
     }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
