@@ -1,6 +1,7 @@
 package org.inventivetalent.notificationlogger.activities
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -141,10 +142,18 @@ class NotificationViewActivity : AppCompatActivity() {
 
         categoryTextView.text = notification.category
 
-        colorTextView.text = notification.color.toString()
+        colorTextView.text = "0x" +
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Integer.toUnsignedString(
+                    notification.color,
+                    16
+                ) else notification.color.toString(16)
         colorTextView.setTextColor(notification.color)
 
-        flagsTextView.text = notification.flags.toString()
+        flagsTextView.text =
+            "0x" + if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Integer.toUnsignedString(
+                notification.flags,
+                16
+            ) else notification.flags.toString(16)
 
         extrasJsonTextView.text = notification.extrasJson?.toString(2)
 
