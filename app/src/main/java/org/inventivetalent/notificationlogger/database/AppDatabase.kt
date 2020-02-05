@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import org.inventivetalent.notificationlogger.database.converters.DateConverter
 import org.inventivetalent.notificationlogger.database.converters.JsonConverter
 
-@Database(entities = [Notification::class], version = 3)
+@Database(entities = [Notification::class], version = 4)
 @TypeConverters(DateConverter::class, JsonConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -50,6 +50,12 @@ abstract class AppDatabase : RoomDatabase() {
                             database.execSQL("ALTER TABLE notifications ADD COLUMN `category` TEXT")
                             database.execSQL("ALTER TABLE notifications ADD COLUMN `color` INTEGER NOT NULL DEFAULT 0")
                             database.execSQL("ALTER TABLE notifications ADD COLUMN `flags` INTEGER NOT NULL DEFAULT 0")
+                        }
+                    })
+                    .addMigrations(object : Migration(3, 4) {
+                        override fun migrate(database: SupportSQLiteDatabase) {
+                            database.execSQL("ALTER TABLE notifications ADD COLUMN `interruptionFilter` INTEGER NOT NULL DEFAULT 0")
+                            database.execSQL("ALTER TABLE notifications ADD COLUMN `removeReason` INTEGER NOT NULL DEFAULT 0")
                         }
                     })
                     .fallbackToDestructiveMigration()

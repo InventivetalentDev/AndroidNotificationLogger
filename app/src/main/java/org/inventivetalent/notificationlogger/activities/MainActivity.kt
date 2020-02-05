@@ -187,45 +187,53 @@ class MainActivity : AppCompatActivity() {
                 n.action = action
                 n.time = Date()
 
-                if (notification != null) {
-                    n.notificationId = notification.id
-                    n.key = notification.key
-                    n.tag = notification.tag
-                    n.packageName = notification.packageName
-
-                    if (notification.notification != null) {
-                        n.tickerText = notification.notification.tickerText?.toString()
-                        n.whenTime = Date(notification.notification.`when`)
-                        n.number = notification.notification.number
-                        n.flags = notification.notification.flags
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            n.visibility = notification.notification.visibility
-                            n.category = notification.notification.category
-                            n.color = notification.notification.color
-                        }
-
-
-                        var channel: NotificationChannel? = null
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            n.channelId = notification.notification.channelId
-
-                            val nManager =
-                                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                            channel = nManager.getNotificationChannel(n.channelId)
-                        }
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && channel != null) {
-                            n.channelName = channel.name?.toString()
-                            n.channelDescription = channel.description
-                            n.priority = channel.importance// same as priority below
-                            n.vibrate = channel.vibrationPattern?.joinToString { "," }
-                            n.sound = channel.sound?.toString()
-                        } else {// Falling back to these fields since you can't access channels that don't belong to your app
-                            n.priority = notification.notification.priority
-                            n.vibrate = notification.notification.vibrate?.joinToString { "," }
-                            n.sound = notification.notification.sound?.toString()
-                        }
+                if (bundle != null) {
+                    if (bundle.containsKey("interruptionFilter")) {
+                        n.interruptionFilter = bundle.getInt("interruptionFilter")
                     }
+                    if (bundle.containsKey("reason")) {
+                        n.removeReason = bundle.getInt("reason")
+                    }
+
+                    if (notification != null) {
+                        n.notificationId = notification.id
+                        n.key = notification.key
+                        n.tag = notification.tag
+                        n.packageName = notification.packageName
+
+                        if (notification.notification != null) {
+                            n.tickerText = notification.notification.tickerText?.toString()
+                            n.whenTime = Date(notification.notification.`when`)
+                            n.number = notification.notification.number
+                            n.flags = notification.notification.flags
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                n.visibility = notification.notification.visibility
+                                n.category = notification.notification.category
+                                n.color = notification.notification.color
+                            }
+
+
+                            var channel: NotificationChannel? = null
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                n.channelId = notification.notification.channelId
+
+                                val nManager =
+                                    context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                                channel = nManager.getNotificationChannel(n.channelId)
+                            }
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && channel != null) {
+                                n.channelName = channel.name?.toString()
+                                n.channelDescription = channel.description
+                                n.priority = channel.importance// same as priority below
+                                n.vibrate = channel.vibrationPattern?.joinToString { "," }
+                                n.sound = channel.sound?.toString()
+                            } else {// Falling back to these fields since you can't access channels that don't belong to your app
+                                n.priority = notification.notification.priority
+                                n.vibrate = notification.notification.vibrate?.joinToString { "," }
+                                n.sound = notification.notification.sound?.toString()
+                            }
+                        }
 
 //                    if (extras != null) {
 //                        val json = JSONObject()
@@ -242,10 +250,11 @@ class MainActivity : AppCompatActivity() {
 //                        }
 //                        n.extrasJson = json
 //                    }
-                    if (extrasJson != null) {
-                        n.extrasJson = JSONObject(extrasJson)
-                    } else {
-                        n.extrasJson = JSONObject()
+                        if (extrasJson != null) {
+                            n.extrasJson = JSONObject(extrasJson)
+                        } else {
+                            n.extrasJson = JSONObject()
+                        }
                     }
                 }
                 insertNotification(n)

@@ -1,6 +1,7 @@
 package org.inventivetalent.notificationlogger
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.service.notification.NotificationListenerService
@@ -35,6 +36,7 @@ class NotificationListener : NotificationListenerService() {
 
         val intent = Intent(MainActivity.BROADCAST_TAG)
         intent.putExtra("action", "self_connected")
+        writeStatesIntoIntent(intent)
         sendBroadcast(intent)
     }
 
@@ -43,12 +45,13 @@ class NotificationListener : NotificationListenerService() {
 
         val intent = Intent(MainActivity.BROADCAST_TAG)
         intent.putExtra("action", "self_disconnected")
+        writeStatesIntoIntent(intent)
         sendBroadcast(intent)
     }
 
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
-        Log.i(TAG, "**********  onNotificationPosted");
+        Log.i(TAG, "**********  onNotificationPosted")
         if (sbn != null) {
             Log.i(
                 TAG,
@@ -58,28 +61,50 @@ class NotificationListener : NotificationListenerService() {
             val intent = Intent(MainActivity.BROADCAST_TAG)
             intent.putExtra("action", "post")
             writeNotificationIntoIntent(intent, sbn)
+            writeStatesIntoIntent(intent)
 
             sendBroadcast(intent)
 
         }
     }
 
-
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {
-        Log.i(TAG, "**********  onNotificationRemoved");
+        // Hoping this can be empty, even if it was abstract in API 20
+    }
+
+
+    override fun onNotificationRemoved(
+        sbn: StatusBarNotification?,
+        rankingMap: RankingMap?,
+        reason: Int
+    ) {
+        Log.i(TAG, "**********  onNotificationRemoved")
         if (sbn != null) {
             Log.i(
                 TAG,
-                "ID :" + sbn.id + "\t" + sbn.notification.tickerText + "\t" + sbn.packageName
+                "ID :" + sbn.id + "\t" + sbn.notification.tickerText + "\t" + sbn.packageName + "\t" + reason
             )
 
             val intent = Intent(MainActivity.BROADCAST_TAG)
             intent.putExtra("action", "remove")
+            intent.putExtra("reason", reason)
             writeNotificationIntoIntent(intent, sbn)
+            writeStatesIntoIntent(intent)
 
             sendBroadcast(intent)
         }
     }
+
+
+    override fun onInterruptionFilterChanged(interruptionFilter: Int) {
+        Log.i(TAG, "onInterruptionFilterChanged $interruptionFilter")
+//        val intent = Intent(MainActivity.BROADCAST_TAG)
+//        intent.putExtra("action", "self_filter_changed")
+//        writeStatesIntoIntent(intent)
+//
+//        sendBroadcast(intent)
+    }
+
 
     private fun writeNotificationIntoIntent(intent: Intent, sbn: StatusBarNotification) {
         val extras = sbn.notification.extras
@@ -109,6 +134,13 @@ class NotificationListener : NotificationListenerService() {
 //        bundle.putBundle("notificationExtras", extras)
         bundle.putString("notificationExtrasJson", extrasJson)
         intent.putExtra("notification", bundle)
+    }
+
+
+    private fun writeStatesIntoIntent(intent: Intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.putExtra("interruptionFilter", currentInterruptionFilter)
+        }
     }
 
 }

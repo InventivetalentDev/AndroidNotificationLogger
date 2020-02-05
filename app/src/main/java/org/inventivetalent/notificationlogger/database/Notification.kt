@@ -48,6 +48,12 @@ class Notification {
     var priority: Int = 0
 
     @ColumnInfo
+    var interruptionFilter: Int = 0
+
+    @ColumnInfo
+    var removeReason: Int = 0
+
+    @ColumnInfo
     var sound: String? = null
 
     @ColumnInfo
