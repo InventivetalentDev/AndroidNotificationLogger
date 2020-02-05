@@ -89,6 +89,7 @@ class NotificationViewActivity : AppCompatActivity() {
         interruptionFilterTextView.text = notification.interruptionFilter.toString()
         reasonTextView.text = notification.removeReason.toString()
         colorTextView.text = notification.color.toString()
+        colorTextView.setTextColor(notification.color)
         flagsTextView.text = notification.flags.toString()
 
         extrasJsonTextView.text = notification.extrasJson?.toString(2)
